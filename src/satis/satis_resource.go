@@ -3,11 +3,12 @@ package satis
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/benschw/satis-go/satis/satisphp"
-	"github.com/benschw/satis-go/satis/satisphp/api"
-	"github.com/gorilla/mux"
 	"log"
 	"net/http"
+
+	"github.com/gorilla/mux"
+	"github.com/koshatul/satis-go/src/satis/satisphp"
+	"github.com/koshatul/satis-go/src/satis/satisphp/api"
 )
 
 type SatisResource struct {

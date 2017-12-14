@@ -2,9 +2,10 @@ package satisphp
 
 import (
 	"errors"
-	"github.com/benschw/satis-go/satis/satisphp/api"
-	"github.com/benschw/satis-go/satis/satisphp/job"
 	"log"
+
+	"github.com/koshatul/satis-go/src/satis/satisphp/api"
+	"github.com/koshatul/satis-go/src/satis/satisphp/job"
 )
 
 var _ = log.Print

@@ -1,13 +1,15 @@
 package satis
 
 import (
-	"github.com/benschw/satis-go/satis/satisphp"
-	"github.com/benschw/satis-go/satis/satisphp/db"
-	"github.com/benschw/satis-go/satis/satisphp/job"
-	"github.com/gorilla/mux"
 	"log"
 	"net/http"
 	"os"
+
+	"github.com/goji/httpauth"
+	"github.com/gorilla/mux"
+	"github.com/koshatul/satis-go/src/satis/satisphp"
+	"github.com/koshatul/satis-go/src/satis/satisphp/db"
+	"github.com/koshatul/satis-go/src/satis/satisphp/job"
 )
 
 var _ = log.Printf
@@ -70,8 +72,15 @@ func (s *Server) Run() error {
 	//	r.Handle("/dist/{rest}", http.StripPrefix("/dist/", http.FileServer(http.Dir("./dist/"))))
 	// r.PathPrefix("/dist/").Handler(http.StripPrefix("/dist/", http.FileServer(http.Dir("./dist"))))
 
-	http.Handle("/", r)
-	http.Handle("/admin/", http.StripPrefix("/admin/", http.FileServer(http.Dir(s.AdminUiPath))))
+	username := os.Getenv("SATIS_GO_USERNAME")
+	password := os.Getenv("SATIS_GO_PASSWORD")
+	if username != "" && password != "" {
+		http.Handle("/", httpauth.SimpleBasicAuth(username, password)(r))
+		http.Handle("/admin/", httpauth.SimpleBasicAuth(username, password)(http.StripPrefix("/admin/", http.FileServer(http.Dir(s.AdminUiPath)))))
+	} else {
+		http.Handle("/", r)
+		http.Handle("/admin/", http.StripPrefix("/admin/", http.FileServer(http.Dir(s.AdminUiPath))))
+	}
 
 	// Start update processor
 	go s.jobProcessor.ProcessUpdates()

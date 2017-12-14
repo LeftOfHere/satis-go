@@ -2,14 +2,15 @@ package satisphp
 
 import (
 	"fmt"
-	"github.com/benschw/satis-go/satis/satisphp/api"
-	"github.com/benschw/satis-go/satis/satisphp/db"
-	"github.com/benschw/satis-go/satis/satisphp/job"
 	"log"
 	"os"
 	"reflect"
 	"testing"
 	"time"
+
+	"github.com/koshatul/satis-go/src/satis/satisphp/api"
+	"github.com/koshatul/satis-go/src/satis/satisphp/db"
+	"github.com/koshatul/satis-go/src/satis/satisphp/job"
 )
 
 var _ = fmt.Print

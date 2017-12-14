@@ -1,9 +1,10 @@
 package client
 
 import (
-	"github.com/benschw/satis-go/satis/satisphp/api"
 	"log"
 	"net/http"
+
+	"github.com/koshatul/satis-go/src/satis/satisphp/api"
 )
 
 var _ = log.Print
