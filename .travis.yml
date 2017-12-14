@@ -12,6 +12,9 @@ deploy:
   - artifacts/archives/satis-go-darwin-amd64.tar.gz
   - artifacts/archives/satis-go-linux-amd64.tar.gz
   - artifacts/archives/satis-go-windows-amd64.zip
+  - artifacts/archives/satis-go-darwin-386.tar.gz
+  - artifacts/archives/satis-go-linux-386.tar.gz
+  - artifacts/archives/satis-go-windows-386.zip
   go: '1.9'
   on:
     tags: true
