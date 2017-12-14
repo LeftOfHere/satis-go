@@ -38,10 +38,7 @@ func (j DeleteRepoJob) Run() error {
 	}
 	dbMgr.DB.Repositories = repos
 
-	if err := dbMgr.Write(); err != nil {
-		return err
-	}
-	return nil
+	return dbMgr.Write()
 }
 func (j DeleteRepoJob) doDelete(repo string, repos []db.SatisRepository) ([]db.SatisRepository, error) {
 	var err error = nil

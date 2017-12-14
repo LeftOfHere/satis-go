@@ -49,7 +49,7 @@ func (s *SatisClient) FindAllRepos() ([]api.Repo, error) {
 
 	repos := <-j.ReposResp
 
-	rs := make([]api.Repo, len(repos), len(repos))
+	rs := make([]api.Repo, len(repos))
 	for i, repo := range repos {
 		rs[i] = *api.NewRepo(repo.Type, repo.URL)
 	}

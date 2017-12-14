@@ -39,11 +39,9 @@ func (j SaveRepoJob) Run() error {
 	}
 	dbMgr.DB.Repositories = repos
 
-	if err := dbMgr.Write(); err != nil {
-		return err
-	}
-	return nil
+	return dbMgr.Write()
 }
+
 func (j SaveRepoJob) doSave(repo api.Repo, repos []db.SatisRepository) ([]db.SatisRepository, error) {
 	repoEntity := db.SatisRepository{Type: repo.Type, URL: repo.Url}
 	found := false
