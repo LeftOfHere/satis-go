@@ -1,3 +1,4 @@
+PROJECT_NAME := satis-go
 MATRIX_OS := darwin linux windows
 MATRIX_ARCH := amd64 386
 
