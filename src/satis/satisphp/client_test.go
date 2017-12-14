@@ -36,7 +36,7 @@ func ARandomClient() *SatisClient {
 		log.Fatalf("Unable to create path: %v", err)
 	}
 
-	dbMgr := &db.SatisDbManager{Path: dbPath}
+	dbMgr := &db.SatisDBManager{Path: dbPath}
 	dbMgr.Write() // empty
 
 	jobs := make(chan job.SatisJob)
@@ -45,14 +45,14 @@ func ARandomClient() *SatisClient {
 	gen = &StubGenerator{}
 
 	jobProcessor := SatisJobProcessor{
-		DbPath:    dbPath,
+		DBPath:    dbPath,
 		Jobs:      jobs,
 		Generator: gen,
 	}
 
 	// Client to Job Processor
 	satisClient := &SatisClient{
-		DbPath: dbPath,
+		DBPath: dbPath,
 		Jobs:   jobs,
 	}
 

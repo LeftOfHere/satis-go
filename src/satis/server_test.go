@@ -1,3 +1,5 @@
+// +build !race
+
 package satis
 
 import (
@@ -37,7 +39,7 @@ func (s *MySuite) SetUpSuite(c *C) {
 func (s *MySuite) SetUpTest(c *C) {
 	s.stubGenerator.runs = 0
 
-	dbMgr := &db.SatisDbManager{Path: s.s.DbPath}
+	dbMgr := &db.SatisDBManager{Path: s.s.DBPath}
 	dbMgr.Write()
 }
 
@@ -76,7 +78,7 @@ func (s *MySuite) TestSaveRepo(c *C) {
 	// given
 	client := &client.SatisClient{Host: s.s.Homepage}
 	r := api.NewRepo("vcs", "http://foo.bar")
-	repo, err := client.AddRepo(r)
+	repo, _ := client.AddRepo(r)
 
 	// when
 	repo.Type = "composer"
@@ -197,7 +199,7 @@ func ARandomServer() *Server {
 	}
 
 	s := &Server{
-		DbPath:   dbPath,
+		DBPath:   dbPath,
 		WebPath:  "../test-web/",
 		Bind:     host,
 		Name:     "My Repo",

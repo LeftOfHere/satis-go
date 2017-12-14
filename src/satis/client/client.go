@@ -9,10 +9,12 @@ import (
 
 var _ = log.Print
 
+// SatisClient needs a comment
 type SatisClient struct {
 	Host string
 }
 
+// AddRepo adds a repo to the SatisClient
 func (c *SatisClient) AddRepo(repo *api.Repo) (*api.Repo, error) {
 	r := &api.Repo{}
 	url := c.Host + "/api/repo"
@@ -24,6 +26,8 @@ func (c *SatisClient) AddRepo(repo *api.Repo) (*api.Repo, error) {
 	err = processResponseEntity(req, &r, http.StatusCreated)
 	return r, err
 }
+
+// SaveRepo saves updates to an existing repo on SatisClient
 func (c *SatisClient) SaveRepo(repo *api.Repo) (*api.Repo, error) {
 	r := &api.Repo{}
 	url := c.Host + "/api/repo/" + repo.Id
@@ -36,6 +40,7 @@ func (c *SatisClient) SaveRepo(repo *api.Repo) (*api.Repo, error) {
 	return r, err
 }
 
+// FindRepo searches for a repo
 func (c *SatisClient) FindRepo(id string) (*api.Repo, error) {
 	var repo api.Repo
 	url := c.Host + "/api/repo/" + id
@@ -48,6 +53,7 @@ func (c *SatisClient) FindRepo(id string) (*api.Repo, error) {
 	return &repo, err
 }
 
+// FindAllRepos returns all repositories
 func (c *SatisClient) FindAllRepos() ([]api.Repo, error) {
 	var repos []api.Repo
 	url := c.Host + "/api/repo"
@@ -60,6 +66,7 @@ func (c *SatisClient) FindAllRepos() ([]api.Repo, error) {
 	return repos, err
 }
 
+// DeleteRepo deletes a repo
 func (c *SatisClient) DeleteRepo(id string) error {
 	url := c.Host + "/api/repo/" + id
 
@@ -70,6 +77,7 @@ func (c *SatisClient) DeleteRepo(id string) error {
 	return processResponseEntity(req, nil, http.StatusNoContent)
 }
 
+// GenerateStaticWeb needs a comment
 func (c *SatisClient) GenerateStaticWeb() error {
 	url := c.Host + "/api/generate-web-job"
 

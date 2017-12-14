@@ -23,11 +23,11 @@ func (j FindAllJob) ExitChan() chan error {
 	return j.exitChan
 }
 func (j FindAllJob) Run() error {
-	dbMgr := db.SatisDbManager{Path: j.dbPath}
+	dbMgr := db.SatisDBManager{Path: j.dbPath}
 
 	err := dbMgr.Load()
 
-	j.ReposResp <- dbMgr.Db.Repositories // might be empty
+	j.ReposResp <- dbMgr.DB.Repositories // might be empty
 
 	return err // might be nil
 }

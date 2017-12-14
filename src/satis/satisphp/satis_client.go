@@ -10,13 +10,16 @@ import (
 
 var _ = log.Print
 
+// ErrRepoNotFound is a error returned when a repository is not found
 var ErrRepoNotFound = errors.New("Repository Not Found")
 
+// SatisClient needs a comment
 type SatisClient struct {
 	Jobs   chan job.SatisJob
-	DbPath string
+	DBPath string
 }
 
+// FindRepo needs a comment
 func (s *SatisClient) FindRepo(id string) (api.Repo, error) {
 	var repo api.Repo
 
@@ -34,12 +37,13 @@ func (s *SatisClient) FindRepo(id string) (api.Repo, error) {
 	}
 	if found {
 		return repo, nil
-	} else {
-		return repo, ErrRepoNotFound
 	}
+	return repo, ErrRepoNotFound
 }
+
+// FindAllRepos needs a comment
 func (s *SatisClient) FindAllRepos() ([]api.Repo, error) {
-	j := job.NewFindAllJob(s.DbPath)
+	j := job.NewFindAllJob(s.DBPath)
 
 	err := s.performJob(j)
 
@@ -47,18 +51,19 @@ func (s *SatisClient) FindAllRepos() ([]api.Repo, error) {
 
 	rs := make([]api.Repo, len(repos), len(repos))
 	for i, repo := range repos {
-		rs[i] = *api.NewRepo(repo.Type, repo.Url)
+		rs[i] = *api.NewRepo(repo.Type, repo.URL)
 	}
 
 	return rs, err
 }
 
+// SaveRepo nees a comment
 func (s *SatisClient) SaveRepo(repo *api.Repo, generate bool) error {
 	// repoEntity := db.SatisRepository{
 	// 	Type: repo.Type,
 	// 	Url:  repo.Url,
 	// }
-	j := job.NewSaveRepoJob(s.DbPath, *repo)
+	j := job.NewSaveRepoJob(s.DBPath, *repo)
 	if err := s.performJob(j); err != nil {
 		return err
 	}
@@ -69,6 +74,7 @@ func (s *SatisClient) SaveRepo(repo *api.Repo, generate bool) error {
 	}
 }
 
+// DeleteRepo needs a comment
 func (s *SatisClient) DeleteRepo(id string, generate bool) error {
 	var toDelete api.Repo
 
@@ -86,7 +92,7 @@ func (s *SatisClient) DeleteRepo(id string, generate bool) error {
 	}
 
 	if found {
-		j := job.NewDeleteRepoJob(s.DbPath, toDelete.Url)
+		j := job.NewDeleteRepoJob(s.DBPath, toDelete.Url)
 		if err = s.performJob(j); err != nil {
 			switch err {
 			case job.ErrRepoNotFound:
@@ -106,11 +112,13 @@ func (s *SatisClient) DeleteRepo(id string, generate bool) error {
 	}
 }
 
+// GenerateSatisWeb needs a comment
 func (s *SatisClient) GenerateSatisWeb() error {
 	j := job.NewGenerateJob()
 	return s.performJob(j)
 }
 
+// Shutdown needs a comment
 func (s *SatisClient) Shutdown() error {
 	j := job.NewExitJob()
 	return s.performJob(j)

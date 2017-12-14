@@ -37,23 +37,23 @@ func buildRequest(method string, url string, entity interface{}) (*http.Request,
 func encodeEntity(entity interface{}) (io.Reader, error) {
 	if entity == nil {
 		return nil, nil
-	} else {
-		b, err := json.Marshal(entity)
-		if err != nil {
-			return nil, err
-		}
-		return bytes.NewBuffer(b), nil
 	}
-}
-
-func processResponseBytes(r *http.Response, expectedStatus int) ([]byte, error) {
-	if err := processResponse(r, expectedStatus); err != nil {
+	b, err := json.Marshal(entity)
+	if err != nil {
 		return nil, err
 	}
-
-	respBody, err := ioutil.ReadAll(r.Body)
-	return respBody, err
+	return bytes.NewBuffer(b), nil
 }
+
+// TODO deadcodema
+// func processResponseBytes(r *http.Response, expectedStatus int) ([]byte, error) {
+// 	if err := processResponse(r, expectedStatus); err != nil {
+// 		return nil, err
+// 	}
+
+// 	respBody, err := ioutil.ReadAll(r.Body)
+// 	return respBody, err
+// }
 func processResponseEntity(r *http.Response, entity interface{}, expectedStatus int) error {
 	if err := processResponse(r, expectedStatus); err != nil {
 		return err

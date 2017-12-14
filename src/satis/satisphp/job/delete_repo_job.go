@@ -4,7 +4,7 @@ import (
 	"github.com/koshatul/satis-go/src/satis/satisphp/db"
 )
 
-// Remove a repo from the repo collection
+// NewDeleteRepoJob removes a repo from the repo collection
 func NewDeleteRepoJob(dbPath string, repo string) *DeleteRepoJob {
 	return &DeleteRepoJob{
 		dbPath:     dbPath,
@@ -13,26 +13,30 @@ func NewDeleteRepoJob(dbPath string, repo string) *DeleteRepoJob {
 	}
 }
 
+// DeleteRepoJob needs a comment
 type DeleteRepoJob struct {
 	dbPath     string
 	repository string
 	exitChan   chan error
 }
 
+// ExitChan needs a comment
 func (j DeleteRepoJob) ExitChan() chan error {
 	return j.exitChan
 }
+
+// Run needs a comment
 func (j DeleteRepoJob) Run() error {
-	dbMgr := db.SatisDbManager{Path: j.dbPath}
+	dbMgr := db.SatisDBManager{Path: j.dbPath}
 
 	if err := dbMgr.Load(); err != nil {
 		return err
 	}
-	repos, err := j.doDelete(j.repository, dbMgr.Db.Repositories)
+	repos, err := j.doDelete(j.repository, dbMgr.DB.Repositories)
 	if err != nil {
 		return err
 	}
-	dbMgr.Db.Repositories = repos
+	dbMgr.DB.Repositories = repos
 
 	if err := dbMgr.Write(); err != nil {
 		return err
@@ -45,7 +49,7 @@ func (j DeleteRepoJob) doDelete(repo string, repos []db.SatisRepository) ([]db.S
 
 	rs := make([]db.SatisRepository, 0, len(repos))
 	for _, r := range repos {
-		if r.Url == repo {
+		if r.URL == repo {
 			found = true
 		} else {
 			rs = append(rs, r)

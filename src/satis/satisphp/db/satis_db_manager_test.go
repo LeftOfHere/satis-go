@@ -11,7 +11,7 @@ import (
 var _ = fmt.Print
 var _ = log.Print
 
-func ARandomDbMgr() SatisDbManager {
+func ARandomDbMgr() SatisDBManager {
 	dbPath := "/tmp/satis-test-data"
 
 	// Make Data Dir
@@ -19,12 +19,12 @@ func ARandomDbMgr() SatisDbManager {
 		log.Fatalf("Unable to create path: %v", err)
 	}
 
-	mgr := SatisDbManager{Path: dbPath}
-	mgr.Db.Name = "My Repo"
-	mgr.Db.Homepage = "http://repo.com"
-	mgr.Db.RequireAll = true
-	mgr.Db.Repositories = []SatisRepository{
-		SatisRepository{Type: "vcs", Url: "http://package.com"},
+	mgr := SatisDBManager{Path: dbPath}
+	mgr.DB.Name = "My Repo"
+	mgr.DB.Homepage = "http://repo.com"
+	mgr.DB.RequireAll = true
+	mgr.DB.Repositories = []SatisRepository{
+		{Type: "vcs", URL: "http://package.com"},
 	}
 
 	mgr.Path = dbPath
@@ -37,7 +37,7 @@ func TestDbLoad(t *testing.T) {
 
 	// given
 	mgr := ARandomDbMgr()
-	r := SatisDbManager{Path: mgr.Path}
+	r := SatisDBManager{Path: mgr.Path}
 
 	// when
 	err := r.Load()
@@ -47,17 +47,17 @@ func TestDbLoad(t *testing.T) {
 		t.Error(err)
 	}
 
-	if !reflect.DeepEqual(r.Db, mgr.Db) {
+	if !reflect.DeepEqual(r.DB, mgr.DB) {
 		t.Error("loaded config doesn't match original")
 	}
 }
 func TestDbWrite(t *testing.T) {
 	// given
 	r := ARandomDbMgr()
-	oldName := r.Db.Name
+	oldName := r.DB.Name
 	// when
-	r.Db.Name = "foo"
-	modifiedDb := r.Db
+	r.DB.Name = "foo"
+	modifiedDb := r.DB
 
 	err := r.Write()
 
@@ -71,10 +71,10 @@ func TestDbWrite(t *testing.T) {
 		t.Error(err)
 	}
 
-	if oldName == r.Db.Name {
-		t.Errorf("config should have changed: %s / %s", oldName, r.Db.Name)
+	if oldName == r.DB.Name {
+		t.Errorf("config should have changed: %s / %s", oldName, r.DB.Name)
 	}
-	if !reflect.DeepEqual(r.Db, modifiedDb) {
-		t.Errorf("config didn't persist changes when written: %s / %s", r.Db.Name, modifiedDb.Name)
+	if !reflect.DeepEqual(r.DB, modifiedDb) {
+		t.Errorf("config didn't persist changes when written: %s / %s", r.DB.Name, modifiedDb.Name)
 	}
 }

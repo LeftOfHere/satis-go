@@ -1,13 +1,15 @@
 package db
 
-type SatisDb struct {
+// SatisDB needs a comment
+type SatisDB struct {
 	Name         string            `json:"name"`
 	Homepage     string            `json:"homepage"`
 	Repositories []SatisRepository `json:"repositories"`
 	RequireAll   bool              `json:"require-all"`
 }
 
+// SatisRepository needs a comment
 type SatisRepository struct {
 	Type string `json:"type"`
-	Url  string `json:"url"`
+	URL  string `json:"url"`
 }

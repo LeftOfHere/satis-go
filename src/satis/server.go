@@ -14,9 +14,10 @@ import (
 
 var _ = log.Printf
 
+// Server needs a comment
 type Server struct {
-	DbPath       string
-	AdminUiPath  string
+	DBPath       string
+	AdminUIPath  string
 	WebPath      string
 	Bind         string
 	Name         string
@@ -25,6 +26,7 @@ type Server struct {
 	jobClient    satisphp.SatisClient
 }
 
+// Run needs a comment
 func (s *Server) Run() error {
 	// sync config to db
 	if err := s.initDb(); err != nil {
@@ -36,19 +38,19 @@ func (s *Server) Run() error {
 
 	// Job Processor responsible for interacting with db & static web docs
 	gen := &satisphp.StaticWebGenerator{
-		DbPath:  s.DbPath,
+		DBPath:  s.DBPath,
 		WebPath: s.WebPath,
 	}
 
 	s.jobProcessor = satisphp.SatisJobProcessor{
-		DbPath:    s.DbPath,
+		DBPath:    s.DBPath,
 		Jobs:      jobs,
 		Generator: gen,
 	}
 
 	// Client to Job Processor
 	jobClient := satisphp.SatisClient{
-		DbPath: s.DbPath,
+		DBPath: s.DBPath,
 		Jobs:   jobs,
 	}
 
@@ -76,10 +78,10 @@ func (s *Server) Run() error {
 	password := os.Getenv("SATIS_GO_PASSWORD")
 	if username != "" && password != "" {
 		http.Handle("/", httpauth.SimpleBasicAuth(username, password)(r))
-		http.Handle("/admin/", httpauth.SimpleBasicAuth(username, password)(http.StripPrefix("/admin/", http.FileServer(http.Dir(s.AdminUiPath)))))
+		http.Handle("/admin/", httpauth.SimpleBasicAuth(username, password)(http.StripPrefix("/admin/", http.FileServer(http.Dir(s.AdminUIPath)))))
 	} else {
 		http.Handle("/", r)
-		http.Handle("/admin/", http.StripPrefix("/admin/", http.FileServer(http.Dir(s.AdminUiPath))))
+		http.Handle("/admin/", http.StripPrefix("/admin/", http.FileServer(http.Dir(s.AdminUIPath))))
 	}
 
 	// Start update processor
@@ -91,10 +93,10 @@ func (s *Server) Run() error {
 
 // Sync configured values to satis repository meta data
 func (s *Server) initDb() error {
-	dbMgr := &db.SatisDbManager{Path: s.DbPath}
+	dbMgr := &db.SatisDBManager{Path: s.DBPath}
 
 	// create empty db if it doesn't exist
-	if _, err := os.Stat(s.DbPath + db.DbFile); os.IsNotExist(err) {
+	if _, err := os.Stat(s.DBPath + db.DBFile); os.IsNotExist(err) {
 		if err := dbMgr.Write(); err != nil {
 			return err
 		}
@@ -103,8 +105,8 @@ func (s *Server) initDb() error {
 	if err := dbMgr.Load(); err != nil {
 		return err
 	}
-	dbMgr.Db.Name = s.Name
-	dbMgr.Db.Homepage = s.Homepage
-	dbMgr.Db.RequireAll = true
+	dbMgr.DB.Name = s.Name
+	dbMgr.DB.Homepage = s.Homepage
+	dbMgr.DB.RequireAll = true
 	return dbMgr.Write()
 }

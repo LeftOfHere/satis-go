@@ -11,6 +11,7 @@ import (
 	"github.com/koshatul/satis-go/src/satis/satisphp/api"
 )
 
+// SatisResource needs a comment
 type SatisResource struct {
 	Host           string
 	SatisPhpClient satisphp.SatisClient
@@ -39,7 +40,7 @@ func (r *SatisResource) addRepo(res http.ResponseWriter, req *http.Request) {
 		res.WriteHeader(http.StatusInternalServerError)
 	}
 
-	res.Header().Set("Location", fmt.Sprintf("%s/api/repo/%d", r.Host, repo.Id))
+	res.Header().Set("Location", fmt.Sprintf("%s/api/repo/%s", r.Host, repo.Id))
 	res.Header().Set("Content-Type", "application/json")
 	res.WriteHeader(http.StatusCreated)
 	fmt.Fprint(res, body)

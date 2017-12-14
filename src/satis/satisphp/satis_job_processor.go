@@ -9,15 +9,16 @@ import (
 
 var _ = log.Printf
 
+// SatisJobProcessor needs a comment
 type SatisJobProcessor struct {
-	DbPath    string
+	DBPath    string
 	Jobs      chan job.SatisJob
 	Generator Generator
 }
 
-// Run jobs added to Jobs chan
+// ProcessUpdates runs jobs added to Jobs chan
 func (s *SatisJobProcessor) ProcessUpdates() {
-	genCh := make(chan *db.SatisDbManager, 10)
+	genCh := make(chan *db.SatisDBManager, 10)
 	genExit := make(chan error, 1)
 
 	go s.processGenerateJobs(genCh, genExit)
@@ -29,7 +30,7 @@ func (s *SatisJobProcessor) ProcessUpdates() {
 		switch j.(type) {
 		// Generate Static Web
 		case *job.GenerateJob:
-			dbMgr := db.SatisDbManager{Path: s.DbPath}
+			dbMgr := db.SatisDBManager{Path: s.DBPath}
 
 			if err = dbMgr.Load(); err == nil {
 				genCh <- &dbMgr
@@ -51,7 +52,7 @@ func (s *SatisJobProcessor) ProcessUpdates() {
 	}
 }
 
-func (s *SatisJobProcessor) processGenerateJobs(genCh chan *db.SatisDbManager, genExit chan error) {
+func (s *SatisJobProcessor) processGenerateJobs(genCh chan *db.SatisDBManager, genExit chan error) {
 	for {
 		dbMgr := <-genCh
 
