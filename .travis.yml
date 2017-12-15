@@ -2,7 +2,10 @@ language: go
 go:
 - '1.9'
 script: make ci
-before_deploy: make archives
+before_deploy: 
+- pwd
+- find .
+- make archives
 deploy:
   provider: releases
   api_key:
