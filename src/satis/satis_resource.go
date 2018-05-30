@@ -7,8 +7,8 @@ import (
 	"net/http"
 
 	"github.com/gorilla/mux"
-	"github.com/koshatul/satis-go/src/satis/satisphp"
-	"github.com/koshatul/satis-go/src/satis/satisphp/api"
+	"github.com/leftofhere/satis-go/src/satis/satisphp"
+	"github.com/leftofhere/satis-go/src/satis/satisphp/api"
 )
 
 // SatisResource needs a comment

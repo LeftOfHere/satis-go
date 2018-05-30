@@ -4,7 +4,7 @@ import (
 	"log"
 	"os/exec"
 
-	"github.com/koshatul/satis-go/src/satis/satisphp/db"
+	"github.com/leftofhere/satis-go/src/satis/satisphp/db"
 )
 
 var _ = log.Print

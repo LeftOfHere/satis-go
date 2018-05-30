@@ -1,8 +1,8 @@
 package job
 
 import (
-	"github.com/koshatul/satis-go/src/satis/satisphp/api"
-	"github.com/koshatul/satis-go/src/satis/satisphp/db"
+	"github.com/leftofhere/satis-go/src/satis/satisphp/api"
+	"github.com/leftofhere/satis-go/src/satis/satisphp/db"
 )
 
 // NewSaveRepoJob adds or saves a repo tp the repo collection

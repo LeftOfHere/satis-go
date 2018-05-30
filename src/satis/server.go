@@ -7,9 +7,9 @@ import (
 
 	"github.com/goji/httpauth"
 	"github.com/gorilla/mux"
-	"github.com/koshatul/satis-go/src/satis/satisphp"
-	"github.com/koshatul/satis-go/src/satis/satisphp/db"
-	"github.com/koshatul/satis-go/src/satis/satisphp/job"
+	"github.com/leftofhere/satis-go/src/satis/satisphp"
+	"github.com/leftofhere/satis-go/src/satis/satisphp/db"
+	"github.com/leftofhere/satis-go/src/satis/satisphp/job"
 )
 
 var _ = log.Printf
