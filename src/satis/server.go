@@ -63,6 +63,11 @@ func (s *Server) Run() error {
 	// Configure Routes
 	r := mux.NewRouter()
 
+	username := os.Getenv("SATIS_GO_USERNAME")
+	password := os.Getenv("SATIS_GO_PASSWORD")
+
+	r.Use(httpauth.SimpleBasicAuth(username, password))
+
 	r.HandleFunc("/api/repo", resource.addRepo).Methods("POST")
 	r.HandleFunc("/api/repo/{id}", resource.saveRepo).Methods("PUT")
 	r.HandleFunc("/api/repo/{id}", resource.findRepo).Methods("GET")
@@ -74,15 +79,13 @@ func (s *Server) Run() error {
 	//	r.Handle("/dist/{rest}", http.StripPrefix("/dist/", http.FileServer(http.Dir("./dist/"))))
 	// r.PathPrefix("/dist/").Handler(http.StripPrefix("/dist/", http.FileServer(http.Dir("./dist"))))
 
-	username := os.Getenv("SATIS_GO_USERNAME")
-	password := os.Getenv("SATIS_GO_PASSWORD")
-	if username != "" && password != "" {
-		http.Handle("/", httpauth.SimpleBasicAuth(username, password)(r))
-		http.Handle("/admin/", httpauth.SimpleBasicAuth(username, password)(http.StripPrefix("/admin/", http.FileServer(http.Dir(s.AdminUIPath)))))
-	} else {
-		http.Handle("/", r)
-		http.Handle("/admin/", http.StripPrefix("/admin/", http.FileServer(http.Dir(s.AdminUIPath))))
-	}
+	// if username != "" && password != "" {
+	// 	http.Handle("/", httpauth.SimpleBasicAuth(username, password)(r))
+	// 	http.Handle("/admin/", httpauth.SimpleBasicAuth(username, password)(http.StripPrefix("/admin/", http.FileServer(http.Dir(s.AdminUIPath)))))
+	// } else {
+	http.Handle("/", r)
+	http.Handle("/admin/", http.StripPrefix("/admin/", http.FileServer(http.Dir(s.AdminUIPath))))
+	// }
 
 	// Start update processor
 	go s.jobProcessor.ProcessUpdates()
