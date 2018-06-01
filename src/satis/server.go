@@ -66,7 +66,7 @@ func (s *Server) Run() error {
 	username := os.Getenv("SATIS_GO_USERNAME")
 	password := os.Getenv("SATIS_GO_PASSWORD")
 
-	r.Use(httpauth.SimpleBasicAuth(username, password))
+	// r.Use(httpauth.SimpleBasicAuth(username, password))
 
 	r.HandleFunc("/api/repo", resource.addRepo).Methods("POST")
 	r.HandleFunc("/api/repo/{id}", resource.saveRepo).Methods("PUT")
