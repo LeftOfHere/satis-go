@@ -8,9 +8,9 @@ import (
 	"testing"
 	"time"
 
-	"github.com/leftofhere/satis-go/src/satis/satisphp/api"
-	"github.com/leftofhere/satis-go/src/satis/satisphp/db"
-	"github.com/leftofhere/satis-go/src/satis/satisphp/job"
+	"./api"
+	"./db"
+	"./job"
 )
 
 var _ = fmt.Print

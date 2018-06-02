@@ -5,11 +5,12 @@ import (
 	"net/http"
 	"os"
 
+	"satisphp"
+	"satisphp/db"
+	"satisphp/job"
+
 	"github.com/goji/httpauth"
 	"github.com/gorilla/mux"
-	"github.com/leftofhere/satis-go/src/satis/satisphp"
-	"github.com/leftofhere/satis-go/src/satis/satisphp/db"
-	"github.com/leftofhere/satis-go/src/satis/satisphp/job"
 )
 
 var _ = log.Printf
@@ -66,7 +67,7 @@ func (s *Server) Run() error {
 	username := os.Getenv("SATIS_GO_USERNAME")
 	password := os.Getenv("SATIS_GO_PASSWORD")
 
-	// r.Use(httpauth.SimpleBasicAuth(username, password))
+	r.Use(httpauth.SimpleBasicAuth(username, password))
 
 	r.HandleFunc("/api/repo", resource.addRepo).Methods("POST")
 	r.HandleFunc("/api/repo/{id}", resource.saveRepo).Methods("PUT")
@@ -76,16 +77,8 @@ func (s *Server) Run() error {
 	r.HandleFunc("/api/generate-web-job", resource.generateStaticWeb).Methods("POST")
 	r.PathPrefix("/").Handler(http.FileServer(http.Dir(s.WebPath)))
 
-	//	r.Handle("/dist/{rest}", http.StripPrefix("/dist/", http.FileServer(http.Dir("./dist/"))))
-	// r.PathPrefix("/dist/").Handler(http.StripPrefix("/dist/", http.FileServer(http.Dir("./dist"))))
-
-	// if username != "" && password != "" {
-	// 	http.Handle("/", httpauth.SimpleBasicAuth(username, password)(r))
-	// 	http.Handle("/admin/", httpauth.SimpleBasicAuth(username, password)(http.StripPrefix("/admin/", http.FileServer(http.Dir(s.AdminUIPath)))))
-	// } else {
 	http.Handle("/", r)
 	http.Handle("/admin/", http.StripPrefix("/admin/", http.FileServer(http.Dir(s.AdminUIPath))))
-	// }
 
 	// Start update processor
 	go s.jobProcessor.ProcessUpdates()

@@ -12,9 +12,9 @@ import (
 	"testing"
 	"time"
 
-	"github.com/leftofhere/satis-go/src/satis/client"
-	"github.com/leftofhere/satis-go/src/satis/satisphp/api"
-	"github.com/leftofhere/satis-go/src/satis/satisphp/db"
+	"./client"
+	"./satisphp/api"
+	"./satisphp/db"
 	. "gopkg.in/check.v1"
 )
 

@@ -4,8 +4,8 @@ import (
 	"errors"
 	"log"
 
-	"github.com/leftofhere/satis-go/src/satis/satisphp/api"
-	"github.com/leftofhere/satis-go/src/satis/satisphp/job"
+	"satisphp/api"
+	"satisphp/job"
 )
 
 var _ = log.Print

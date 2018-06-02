@@ -1,7 +1,7 @@
 package job
 
 import (
-	"github.com/leftofhere/satis-go/src/satis/satisphp/db"
+	"satisphp/db"
 )
 
 // Get all repos in the repo collection

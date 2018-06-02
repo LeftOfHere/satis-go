@@ -3,8 +3,8 @@ package satisphp
 import (
 	"log"
 
-	"github.com/leftofhere/satis-go/src/satis/satisphp/db"
-	"github.com/leftofhere/satis-go/src/satis/satisphp/job"
+	"satisphp/db"
+	"satisphp/job"
 )
 
 var _ = log.Printf

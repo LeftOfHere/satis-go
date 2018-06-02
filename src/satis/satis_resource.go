@@ -6,9 +6,10 @@ import (
 	"log"
 	"net/http"
 
+	"satisphp"
+	"satisphp/api"
+
 	"github.com/gorilla/mux"
-	"github.com/leftofhere/satis-go/src/satis/satisphp"
-	"github.com/leftofhere/satis-go/src/satis/satisphp/api"
 )
 
 // SatisResource needs a comment
