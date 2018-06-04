@@ -1,0 +1,6 @@
+{
+    "name": "My Repository",
+    "homepage": "http://localhost:8080",
+    "repositories": null,
+    "require-all": true
+}
